@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as The24RouteImport } from './routes/the-24'
+import { Route as StoreRouteImport } from './routes/store'
 import { Route as SponsorsRouteImport } from './routes/sponsors'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as MembershipRouteImport } from './routes/membership'
@@ -24,6 +25,11 @@ import { Route as FranchisesSlugRouteImport } from './routes/franchises.$slug'
 const The24Route = The24RouteImport.update({
   id: '/the-24',
   path: '/the-24',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StoreRoute = StoreRouteImport.update({
+  id: '/store',
+  path: '/store',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SponsorsRoute = SponsorsRouteImport.update({
@@ -87,6 +93,7 @@ export interface FileRoutesByFullPath {
   '/membership': typeof MembershipRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sponsors': typeof SponsorsRoute
+  '/store': typeof StoreRoute
   '/the-24': typeof The24Route
   '/franchises/$slug': typeof FranchisesSlugRoute
 }
@@ -100,6 +107,7 @@ export interface FileRoutesByTo {
   '/membership': typeof MembershipRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sponsors': typeof SponsorsRoute
+  '/store': typeof StoreRoute
   '/the-24': typeof The24Route
   '/franchises/$slug': typeof FranchisesSlugRoute
 }
@@ -114,6 +122,7 @@ export interface FileRoutesById {
   '/membership': typeof MembershipRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sponsors': typeof SponsorsRoute
+  '/store': typeof StoreRoute
   '/the-24': typeof The24Route
   '/franchises/$slug': typeof FranchisesSlugRoute
 }
@@ -129,6 +138,7 @@ export interface FileRouteTypes {
     | '/membership'
     | '/sitemap.xml'
     | '/sponsors'
+    | '/store'
     | '/the-24'
     | '/franchises/$slug'
   fileRoutesByTo: FileRoutesByTo
@@ -142,6 +152,7 @@ export interface FileRouteTypes {
     | '/membership'
     | '/sitemap.xml'
     | '/sponsors'
+    | '/store'
     | '/the-24'
     | '/franchises/$slug'
   id:
@@ -155,6 +166,7 @@ export interface FileRouteTypes {
     | '/membership'
     | '/sitemap.xml'
     | '/sponsors'
+    | '/store'
     | '/the-24'
     | '/franchises/$slug'
   fileRoutesById: FileRoutesById
@@ -169,6 +181,7 @@ export interface RootRouteChildren {
   MembershipRoute: typeof MembershipRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SponsorsRoute: typeof SponsorsRoute
+  StoreRoute: typeof StoreRoute
   The24Route: typeof The24Route
 }
 
@@ -179,6 +192,13 @@ declare module '@tanstack/react-router' {
       path: '/the-24'
       fullPath: '/the-24'
       preLoaderRoute: typeof The24RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/store': {
+      id: '/store'
+      path: '/store'
+      fullPath: '/store'
+      preLoaderRoute: typeof StoreRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sponsors': {
@@ -276,6 +296,7 @@ const rootRouteChildren: RootRouteChildren = {
   MembershipRoute: MembershipRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SponsorsRoute: SponsorsRoute,
+  StoreRoute: StoreRoute,
   The24Route: The24Route,
 }
 export const routeTree = rootRouteImport

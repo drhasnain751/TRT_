@@ -46,13 +46,13 @@ const initiatives = [
   {
     label: "Partner",
     title: "Community Partnerships",
-    desc: "Schools, rec centres, faith organizations, and nonprofits — TRT actively seeks local partnerships that grow the game at the grassroots level.",
+    desc: "Schools, rec centres, faith organizations, and nonprofits. TRT actively seeks local partnerships that grow the game at the grassroots level.",
     cta: "Partner with TRT",
   },
   {
     label: "Sponsorship",
     title: "Fund the Future",
-    desc: "Community-level sponsors power clinics, equipment, and court programs. Every dollar goes directly into the neighbourhood.",
+    desc: "Community sponsors power clinics, equipment, and court programs. Every dollar goes directly into the neighbourhood.",
     cta: "Become a Sponsor",
   },
 ];
@@ -79,7 +79,7 @@ function CommunityPage() {
           </Reveal>
           <Reveal delay={0.15}>
             <p className="mt-8 max-w-xl text-lg text-white/70 leading-relaxed">
-              TRT is not just a basketball league. Every franchise is embedded in its neighbourhood — running clinics, rebuilding courts, and creating pathways for the next generation of Toronto athletes.
+              TRT is not just a basketball league. Every franchise is embedded in its neighbourhood, running clinics, rebuilding courts, and creating pathways for the next generation of Toronto athletes.
             </p>
           </Reveal>
         </div>

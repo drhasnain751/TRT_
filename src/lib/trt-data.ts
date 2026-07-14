@@ -1,3 +1,10 @@
+import crowdImg from "@/assets/crowd-energy.jpg";
+import streetImg from "@/assets/street-ball.jpg";
+import courtImg from "@/assets/court-aerial.jpg";
+import playerImg from "@/assets/player-shadow.jpg";
+import heroImg from "@/assets/hero-toronto.jpg";
+import the24Bg from "@/assets/the-24-bg.jpg";
+
 export type Player = {
   id: string;
   name: string;
@@ -36,7 +43,7 @@ export const FRANCHISES: Franchise[] = [
   {
     slug: "brampton",
     city: "Brampton",
-    name: "Brampton Kings",
+    name: "Brampton",
     tag: "The Crown",
     color: "oklch(0.58 0.22 27)",
     mission: "Canada's basketball factory. Now with a crown.",
@@ -113,7 +120,7 @@ export const FRANCHISES: Franchise[] = [
   {
     slug: "durham",
     city: "Durham",
-    name: "Durham Storm",
+    name: "Durham",
     tag: "The Surge",
     color: "oklch(0.6 0.22 27)",
     mission: "Quiet region. Loud league.",
@@ -190,7 +197,7 @@ export const FRANCHISES: Franchise[] = [
   {
     slug: "mississauga",
     city: "Mississauga",
-    name: "Mississauga Tide",
+    name: "Mississauga",
     tag: "The Waterfront",
     color: "oklch(0.55 0.24 27)",
     mission: "The wave. The work. The west.",
@@ -267,10 +274,10 @@ export const FRANCHISES: Franchise[] = [
   {
     slug: "scarborough",
     city: "Scarborough",
-    name: "Scarborough East",
+    name: "Scarborough",
     tag: "The East",
     color: "oklch(0.6 0.2 27)",
-    mission: "From Malvern to Morningside — the East rises.",
+    mission: "From Malvern to Morningside, the East rises.",
     gm: "TBA",
     venue: "Scarborough Civic Centre",
     founded: "Founding Franchise",
@@ -344,7 +351,7 @@ export const FRANCHISES: Franchise[] = [
   {
     slug: "downtown-toronto",
     city: "Downtown",
-    name: "Downtown Royals",
+    name: "Downtown",
     tag: "The Capital",
     color: "oklch(0.55 0.24 27)",
     mission: "Defend the core. Carry the crown.",
@@ -352,7 +359,7 @@ export const FRANCHISES: Franchise[] = [
     venue: "Downtown Arena District",
     founded: "Founding Franchise",
     community:
-      "Reinvesting in the courts where Toronto basketball was born. The Royals run youth clinics in Regent Park, Alexandra Park, and Lawrence Heights — the neighbourhoods that built the game.",
+      "Reinvesting in the courts where Toronto basketball was born. The Royals run youth clinics in Regent Park, Alexandra Park, and Lawrence Heights, the neighbourhoods that built the game.",
     map: { x: 500, y: 360 },
     players: [
       {
@@ -421,7 +428,7 @@ export const FRANCHISES: Franchise[] = [
   {
     slug: "vaughan",
     city: "Vaughan",
-    name: "Vaughan Heights",
+    name: "Vaughan",
     tag: "The North",
     color: "oklch(0.6 0.2 27)",
     mission: "Built on ambition. Built for height.",
@@ -513,5 +520,47 @@ export function priceForFounder(n: number): number {
 }
 
 export const UPCOMING_GAMES = [
-  { home: "Scarborough", away: "Mississauga", date: "Summer 2026", time: "TBC", venue: "PRO AM" },
+  { home: "Brampton", away: "Durham", date: "Summer 2026", time: "TBC", venue: "TBC" },
+  { home: "Mississauga", away: "Scarborough", date: "Summer 2026", time: "TBC", venue: "TBC" },
+  { home: "Downtown", away: "Vaughan", date: "Summer 2026", time: "TBC", venue: "TBC" },
+];
+
+export type NewsStory = {
+  cat: string;
+  title: string;
+  subtitle: string;
+  body: string[];
+  img: string;
+  date: string;
+};
+
+export const NEWS_STORIES: NewsStory[] = [
+  {
+    cat: "Announcements",
+    title: "NICK WIGGINS BECOMES FIRST SIGNING IN LEAGUE HISTORY",
+    subtitle: "Nick Wiggins becomes the first player signing in The Real Toronto Basketball League",
+    body: [
+      "The Real Toronto Basketball League has made history.",
+      "The Vaughan Franchise has officially signed Nick Wiggins as the first player in league history.",
+      "A 6 foot 6 guard from Vaughan, Ontario, Wiggins becomes Player 001 and the first name written into the foundation of a new professional basketball movement built for the city.",
+      "This signing is bigger than one roster spot.",
+      "It represents the beginning of what TRT is creating across Toronto and the GTA.",
+      "A league built for players and communities.",
+      "A league built to give the city something it can stand behind.",
+      "For Vaughan, this is the first statement.",
+      "For the league, this is the first step.",
+      "TRT was created to bring professional basketball closer to home, giving Toronto talent a platform to represent where they are from, compete at a high level, and help build something that belongs to the city.",
+      "Nick Wiggins is the first. He will not be the last.",
+      "This is a sign of what is coming, more moments for the city.",
+      "The Real Toronto Basketball League is here.",
+    ],
+    img: "/assets/nick-wiggins-player-001.jpg",
+    date: "2026",
+  },
+  { cat: "Announcements", title: "TRT unveils six founding franchise markets across the GTA", img: heroImg, date: "2026", subtitle: "The league confirms its six founding markets and inaugural season plans.", body: [] },
+  { cat: "Press", title: "The Real Toronto Basketball League launches with U23 pathway", img: crowdImg, date: "2026", subtitle: "TRT announces its development pathway for emerging city talent.", body: [] },
+  { cat: "Videos", title: "Inside the Toronto basketball ecosystem TRT was built to serve", img: streetImg, date: "Series", subtitle: "A look at the city communities driving the league.", body: [] },
+  { cat: "Community", title: "Court rebuilds: Scarborough, Brampton and beyond", img: courtImg, date: "Ongoing", subtitle: "How TRT is investing in courts and community spaces.", body: [] },
+  { cat: "Franchises", title: "Downtown Royals building from the capital outward", img: playerImg, date: "Profile", subtitle: "A profile of the Downtown Royals and their city-first approach.", body: [] },
+  { cat: "Announcements", title: "The 24: TRT opens applications for Founders Circle", img: the24Bg, date: "Open", subtitle: "The Founders Circle launches with 24 legacy positions.", body: [] },
 ];

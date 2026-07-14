@@ -8,8 +8,8 @@ import the24Bg from "@/assets/the-24-bg.jpg";
 export const Route = createFileRoute("/the-24")({
   head: () => ({
     meta: [
-      { title: "The 24 — TRT Founders Circle" },
-      { name: "description", content: "Become a founding member of The Real Toronto Basketball League. The 24 — a private Founders Circle. 24 legacy positions, once filled, never reopened." },
+      { title: "The 24: TRT Founders Circle" },
+      { name: "description", content: "Become a founding member of The Real Toronto Basketball League. The 24 is a private Founders Circle with 24 legacy positions, once filled, never reopened." },
     ],
     links: [{ rel: "canonical", href: "/the-24" }],
   }),
@@ -18,48 +18,14 @@ export const Route = createFileRoute("/the-24")({
 
 const TIERS_DISPLAY = [
   {
-    positions: "1 – 4",
-    price: "$5,000",
+    positions: "1 to 4",
     label: "Pioneer",
     perks: [
       "Founding member recognition",
-      "Season tickets — inaugural year",
+      "Season tickets for the inaugural year",
       "Access to all six franchise launches",
       "TRT Founders jersey",
       "Private founders community",
-    ],
-  },
-  {
-    positions: "5 – 12",
-    price: "$7,500",
-    label: "Builder",
-    perks: [
-      "All Pioneer perks",
-      "VIP courtside access",
-      "Named on franchise wall of legacy",
-      "Invitation to league operations briefings",
-    ],
-  },
-  {
-    positions: "13 – 20",
-    price: "$10,000",
-    label: "Architect",
-    perks: [
-      "All Builder perks",
-      "Franchise advisory input",
-      "Early access to investment rounds",
-      "Annual founders dinner",
-    ],
-  },
-  {
-    positions: "21 – 24",
-    price: "$15,000",
-    label: "Legacy",
-    perks: [
-      "All Architect perks",
-      "Lifetime recognition as founding Legacy member",
-      "Access to TRT's inner league circle",
-      "Direct line to league leadership",
     ],
   },
 ];
@@ -112,19 +78,30 @@ function The24Page() {
                 Live
               </span>
             </div>
-            <div className="grid grid-cols-6 gap-2">
-              {Array.from({ length: 24 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="aspect-square border border-white/15 flex items-center justify-center text-[11px] font-mono text-white/40 hover:border-trt-red hover:text-trt-red transition-colors"
-                >
-                  {String(i + 1).padStart(2, "0")}
-                </div>
-              ))}
-            </div>
-            <div className="mt-6 flex items-baseline justify-between border-t border-white/10 pt-4">
+            <div className="mb-6 flex items-baseline justify-between border-b border-white/10 pb-4">
               <span className="text-[11px] uppercase tracking-[0.2em] text-white/50">Positions Available</span>
-              <span className="font-display text-2xl">24 / 24</span>
+              <span className="font-display text-2xl">23 / 24</span>
+            </div>
+            <div className="grid grid-cols-6 gap-2">
+              {Array.from({ length: 24 }).map((_, i) => {
+                const isClaimed = i === 0;
+                const isAvailable = i > 0 && i < 4;
+                const label = isClaimed ? "M. Walker" : isAvailable ? "Available" : String(i + 1).padStart(2, "0");
+                const style = isClaimed
+                  ? "bg-white/10 border border-trt-red text-white"
+                  : isAvailable
+                  ? "bg-emerald-500/10 border border-emerald-500/30 text-emerald-200"
+                  : "border border-white/15 text-white/40 hover:border-trt-red hover:text-trt-red";
+
+                return (
+                  <div
+                    key={i}
+                    className={`aspect-square flex items-center justify-center text-[11px] font-mono text-center ${style} transition-colors`}
+                  >
+                    {label}
+                  </div>
+                );
+              })}
             </div>
           </Reveal>
         </div>
@@ -134,35 +111,32 @@ function The24Page() {
       <section className="border-t border-white/10 py-24 md:py-36">
         <div className="container-x">
           <Reveal>
-            <p className="text-[11px] uppercase tracking-[0.25em] text-trt-red mb-3">Pricing Tiers</p>
-            <h2 className="font-display text-5xl md:text-6xl leading-[0.9] mb-16">Choose your seat<br />in history.</h2>
+            <p className="text-[11px] uppercase tracking-[0.25em] text-trt-red mb-3">The 24 Founders</p>
+            <h2 className="font-display text-5xl md:text-6xl leading-[0.9] mb-16">Pioneer membership.<br />Legacy impact.</h2>
           </Reveal>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10">
-            {TIERS_DISPLAY.map((tier, i) => (
-              <Reveal key={tier.label} delay={i * 0.07}>
-                <div className="bg-black p-8 flex flex-col h-full">
-                  <div className="flex items-baseline justify-between">
-                    <p className="text-[10px] uppercase tracking-[0.2em] text-trt-red">{tier.label}</p>
-                    <p className="text-[10px] text-white/40">#{tier.positions}</p>
-                  </div>
-                  <p className="font-display text-4xl mt-4">{tier.price}</p>
-                  <ul className="mt-8 space-y-3 flex-1">
-                    {tier.perks.map((p) => (
-                      <li key={p} className="flex items-start gap-3 text-sm text-white/70">
-                        <Check size={14} className="text-trt-red shrink-0 mt-0.5" />
-                        {p}
-                      </li>
-                    ))}
-                  </ul>
-                  <Link
-                    to="/contact"
-                    className="mt-8 w-full inline-flex items-center justify-center gap-2 py-3 text-[11px] uppercase tracking-[0.18em] border border-white/20 hover:border-trt-red hover:text-trt-red transition-colors"
-                  >
-                    Apply <ArrowRight size={12} />
-                  </Link>
+          <div className="max-w-2xl">
+            <Reveal>
+              <div className="bg-black border border-white/10 p-12">
+                <div className="mb-8">
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-trt-red mb-2">Pioneer</p>
+                  <p className="text-[13px] text-white/60">Positions 1 to 24</p>
                 </div>
-              </Reveal>
-            ))}
+                <ul className="space-y-4 mb-10">
+                  {TIERS_DISPLAY[0].perks.map((p) => (
+                    <li key={p} className="flex items-start gap-3 text-sm text-white/70">
+                      <Check size={14} className="text-trt-red shrink-0 mt-0.5" />
+                      {p}
+                    </li>
+                  ))}
+                </ul>
+                <Link
+                  to="/contact"
+                  className="w-full inline-flex items-center justify-center gap-2 py-3 text-[11px] uppercase tracking-[0.18em] bg-trt-red text-white hover:bg-white hover:text-black transition-colors"
+                >
+                  Apply for a Position <ArrowRight size={12} />
+                </Link>
+              </div>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -176,11 +150,11 @@ function The24Page() {
           {[
             {
               q: "Why only 24 positions?",
-              a: "The 24 is intentionally limited. When you build something, you want it in the hands of the right people — those who genuinely believe in TRT's mission and want to shape it from the inside.",
+              a: "The 24 is intentionally limited. When you build something, you want it in the hands of the right people, those who genuinely believe in TRT's mission and want to shape it from the inside.",
             },
             {
               q: "What does a founding member actually get?",
-              a: "Beyond the tangible perks — tickets, jerseys, access — founders become part of the inner community building this property. This is a relationship, not just a transaction.",
+              a: "Beyond the tangible perks, tickets, jerseys, and access, founders become part of the inner community building this property. This is a relationship, not just a transaction.",
             },
             {
               q: "Once positions are filled, what happens?",

@@ -35,7 +35,7 @@ export function Footer() {
           <div className="md:col-span-2">
             <p className="text-[11px] uppercase tracking-[0.2em] text-white/40">Get Involved</p>
             <ul className="mt-5 space-y-3 text-sm">
-              <li><Link to="/membership" className="text-white/70 hover:text-trt-red transition-colors">TRT Membership</Link></li>
+              {/* <li><Link to="/membership" className="text-white/70 hover:text-trt-red transition-colors">TRT Membership</Link></li> */}
               <li><Link to="/the-24" className="text-white/70 hover:text-trt-red transition-colors">The 24</Link></li>
               <li><Link to="/sponsors" className="text-white/70 hover:text-trt-red transition-colors">Sponsors</Link></li>
               <li><Link to="/investors" className="text-white/70 hover:text-trt-red transition-colors">Investors</Link></li>

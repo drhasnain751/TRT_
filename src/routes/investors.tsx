@@ -60,7 +60,7 @@ function InvestorsPage() {
           </Reveal>
           <div className="grid md:grid-cols-2 gap-px bg-white/10">
             {[
-              { label: "Seed Partners", desc: "Early-stage capital building the operational infrastructure — league management, content production, and franchise launches." },
+              { label: "Seed Partners", desc: "Early stage capital building the operational infrastructure, including league management, content production, and franchise launches." },
               { label: "Franchise Investors", desc: "Equity stake in an individual franchise. City-specific brand ownership with the full support of the TRT league system." },
               { label: "Media Rights", desc: "Broadcast, streaming, and content licensing opportunities as TRT builds its distribution network." },
               { label: "Strategic Capital", desc: "Larger institutional investment conversations for those who see the long-term play. Let's talk." },

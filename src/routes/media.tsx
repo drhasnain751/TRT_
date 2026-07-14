@@ -3,12 +3,7 @@ import { useState } from "react";
 import { Nav } from "@/components/trt/Nav";
 import { Footer } from "@/components/trt/Footer";
 import { Reveal } from "@/components/trt/Reveal";
-import crowdImg from "@/assets/crowd-energy.jpg";
-import streetImg from "@/assets/street-ball.jpg";
-import courtImg from "@/assets/court-aerial.jpg";
-import playerImg from "@/assets/player-shadow.jpg";
-import heroImg from "@/assets/hero-toronto.jpg";
-import the24Bg from "@/assets/the-24-bg.jpg";
+import { NEWS_STORIES } from "@/lib/trt-data";
 
 export const Route = createFileRoute("/media")({
   head: () => ({
@@ -25,14 +20,7 @@ export const Route = createFileRoute("/media")({
 
 const categories = ["All", "Announcements", "Press", "Videos", "Community", "Franchises"];
 
-const stories = [
-  { cat: "Announcements", t: "TRT unveils six founding franchise markets across the GTA", img: heroImg, date: "2026" },
-  { cat: "Press", t: "The Real Toronto Basketball League launches with U23 pathway", img: crowdImg, date: "2026" },
-  { cat: "Videos", t: "Inside the Toronto basketball ecosystem TRT was built to serve", img: streetImg, date: "Series" },
-  { cat: "Community", t: "Court rebuilds: Scarborough, Brampton and beyond", img: courtImg, date: "Ongoing" },
-  { cat: "Franchises", t: "Downtown Royals — building from the capital outward", img: playerImg, date: "Profile" },
-  { cat: "Announcements", t: "The 24: TRT opens applications for Founders Circle", img: the24Bg, date: "Open" },
-];
+const stories = NEWS_STORIES;
 
 function MediaPage() {
   const [filter, setFilter] = useState<string>("All");
@@ -75,13 +63,16 @@ function MediaPage() {
               <a className="group block mb-16">
                 <div className="grid md:grid-cols-2 gap-8 items-center">
                   <div className="aspect-[5/4] overflow-hidden">
-                    <img src={filtered[0].img} alt={filtered[0].t} loading="lazy" className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                    <img src={filtered[0].img} alt={filtered[0].title} loading="lazy" className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-700" />
                   </div>
                   <div>
                     <p className="text-[11px] uppercase tracking-[0.2em] text-trt-red">Featured · {filtered[0].cat}</p>
                     <h2 className="font-display mt-4 text-5xl md:text-7xl leading-[0.95] group-hover:text-trt-red transition-colors">
-                      {filtered[0].t}
+                      {filtered[0].title}
                     </h2>
+                    {filtered[0].subtitle ? (
+                      <p className="mt-4 text-white/70 max-w-2xl">{filtered[0].subtitle}</p>
+                    ) : null}
                     <p className="mt-6 text-white/60">{filtered[0].date}</p>
                   </div>
                 </div>
@@ -91,13 +82,13 @@ function MediaPage() {
 
           <div className="grid md:grid-cols-3 gap-8">
             {filtered.slice(1).map((s, i) => (
-              <Reveal key={s.t} delay={i * 0.08}>
+              <Reveal key={s.title} delay={i * 0.08}>
                 <a className="group block">
                   <div className="aspect-[4/5] overflow-hidden">
-                    <img src={s.img} alt={s.t} loading="lazy" className="h-full w-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" />
+                    <img src={s.img} alt={s.title} loading="lazy" className="h-full w-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" />
                   </div>
                   <p className="mt-4 text-[11px] uppercase tracking-[0.2em] text-trt-red">{s.cat}</p>
-                  <h3 className="font-display mt-2 text-2xl group-hover:text-trt-red transition-colors">{s.t}</h3>
+                  <h3 className="font-display mt-2 text-2xl group-hover:text-trt-red transition-colors">{s.title}</h3>
                   <p className="mt-2 text-xs text-white/40">{s.date}</p>
                 </a>
               </Reveal>

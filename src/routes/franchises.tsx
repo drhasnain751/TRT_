@@ -52,41 +52,21 @@ function FranchisesPage() {
 
       <section className="py-12 md:py-20">
         <div className="container-x">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <ul className="space-y-4">
             {FRANCHISES.map((f, i) => (
               <Reveal key={f.slug} delay={i * 0.06}>
-                <Link
-                  to="/franchises/$slug"
-                  params={{ slug: f.slug }}
-                  className="group block bg-black border border-white/10 hover:border-trt-red transition-all duration-500"
-                >
-                  <div className="relative aspect-[4/5] overflow-hidden">
-                    <img
-                      src={IMG_BY_SLUG[f.slug]}
-                      alt={f.city}
-                      loading="lazy"
-                      className="h-full w-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
-                    <div className="absolute top-4 left-4 flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-white/80">
-                      <span className="inline-block h-1.5 w-1.5 rounded-full bg-trt-red" />
-                      {f.tag}
-                    </div>
-                    <ArrowUpRight size={20} className="absolute top-4 right-4 text-white/60 group-hover:text-trt-red group-hover:rotate-45 transition-all" />
-                    <div className="absolute bottom-0 left-0 right-0 p-6">
-                      <p className="text-[11px] uppercase tracking-[0.2em] text-trt-red">{f.founded}</p>
-                      <h3 className="font-display mt-2 text-4xl md:text-5xl">{f.city}</h3>
-                      <p className="mt-1 text-white/60">{f.name}</p>
-                    </div>
-                  </div>
-                  <div className="p-6 border-t border-white/10">
-                    <p className="font-display text-lg text-white/90">"{f.mission}"</p>
-                    <p className="mt-3 text-xs uppercase tracking-[0.15em] text-white/40">{f.venue}</p>
-                  </div>
-                </Link>
+                <li>
+                  <Link
+                    to="/franchises/$slug"
+                    params={{ slug: f.slug }}
+                    className="text-3xl md:text-4xl font-display text-white hover:text-trt-red transition-colors"
+                  >
+                    {f.name}
+                  </Link>
+                </li>
               </Reveal>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
 

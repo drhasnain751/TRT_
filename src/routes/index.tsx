@@ -6,7 +6,7 @@ import { Nav } from "@/components/trt/Nav";
 import { Footer } from "@/components/trt/Footer";
 import { Reveal } from "@/components/trt/Reveal";
 import { Marquee } from "@/components/trt/Marquee";
-import { FRANCHISES, UPCOMING_GAMES } from "@/lib/trt-data";
+import { FRANCHISES, UPCOMING_GAMES, NEWS_STORIES } from "@/lib/trt-data";
 import heroImg from "@/assets/hero-toronto.jpg";
 import playerImg from "@/assets/player-shadow.jpg";
 import courtImg from "@/assets/court-aerial.jpg";
@@ -31,10 +31,10 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <div className="bg-black text-white overflow-hidden">
+    <div className="bg-black text-white overflow-hidden" style={{ paddingTop: 'var(--header-height)' }}>
       <Nav />
-      <GamesTickerBar />
       <Hero />
+      <ScoresStandingsSection />
       <Marquee items={["Toronto", "Scarborough", "Brampton", "Vaughan", "Mississauga", "Durham", "Downtown", "Legacy Lives Here"]} />
 
       {/* Single Main Featured Story */}
@@ -56,114 +56,6 @@ function Index() {
       <CommunityBanner />
 
       <Footer />
-    </div>
-  );
-}
-
-/* ── Games Ticker Bar ─────────────────────────────── */
-function GamesTickerBar() {
-  const [gameScores, setGameScores] = useState<Record<string, { homeScore: number; awayScore: number }>>({});
-  const [playerScores, setPlayerScores] = useState<Record<string, number>>({});
-
-  const upcomingGame = UPCOMING_GAMES[0];
-  const gameKey = `${upcomingGame.home}_${upcomingGame.away}`;
-  const score = gameScores[gameKey] || { homeScore: 0, awayScore: 0 };
-
-  const homeTeam = FRANCHISES.find((f) => f.city === "Scarborough") || { players: [] };
-  const awayTeam = FRANCHISES.find((f) => f.city === "Mississauga") || { players: [] };
-  const homePlayers = homeTeam.players.slice(0, 2);
-  const awayPlayers = awayTeam.players.slice(0, 2);
-
-  const incrementPlayerPoints = (playerId: string, team: "home" | "away") => {
-    setPlayerScores((prev) => ({
-      ...prev,
-      [playerId]: (prev[playerId] || 0) + 1,
-    }));
-
-    setGameScores((prev) => {
-      const current = prev[gameKey] || { homeScore: 0, awayScore: 0 };
-      return {
-        ...prev,
-        [gameKey]: {
-          homeScore: team === "home" ? current.homeScore + 1 : current.homeScore,
-          awayScore: team === "away" ? current.awayScore + 1 : current.awayScore,
-        },
-      };
-    });
-  };
-
-  return (
-    <div className="fixed top-16 md:top-20 inset-x-0 z-40 bg-trt-red backdrop-blur-sm overflow-hidden">
-      <div className="px-4 md:px-8 py-2 md:py-3">
-        <div className="flex items-center justify-between gap-3">
-          {/* Game Info - Compact */}
-          <div className="flex-1 min-w-0">
-            <div className="flex flex-wrap items-center gap-2 text-white">
-              <span className="text-xs md:text-sm font-semibold">{upcomingGame.home}</span>
-              <span className="text-[10px] text-white/60">vs</span>
-              <span className="text-xs md:text-sm font-semibold">{upcomingGame.away}</span>
-              <span className="text-[9px] text-white/50">•</span>
-              <span className="text-[9px] text-white/70">{upcomingGame.date}</span>
-              <span className="text-[9px] text-white/50">•</span>
-              <span className="text-[9px] text-white/70">{upcomingGame.venue}</span>
-            </div>
-          </div>
-
-          {/* Score Display - Minimal */}
-          <div className="flex items-center gap-2 bg-white/10 px-3 py-1.5 rounded-2xl flex-shrink-0">
-            <div className="text-center">
-              <div className="text-lg font-bold text-white">{score.homeScore}</div>
-              <div className="text-[8px] text-white/60 uppercase">SBR</div>
-            </div>
-            <div className="text-white/40">:</div>
-            <div className="text-center">
-              <div className="text-lg font-bold text-white">{score.awayScore}</div>
-              <div className="text-[8px] text-white/60 uppercase">MIS</div>
-            </div>
-          </div>
-
-          {/* Score Buttons */}
-          <div className="flex gap-1 flex-shrink-0">
-            <button
-              onClick={() => {
-                setGameScores((prev) => ({
-                  ...prev,
-                  [gameKey]: { homeScore: score.homeScore + 1, awayScore: score.awayScore },
-                }));
-              }}
-              className="px-2 py-1 bg-white text-trt-red text-[9px] font-semibold uppercase rounded-full hover:bg-white/90 transition-colors"
-            >
-              +1
-            </button>
-            <button
-              onClick={() => {
-                setGameScores((prev) => ({
-                  ...prev,
-                  [gameKey]: { homeScore: score.homeScore, awayScore: score.awayScore + 1 },
-                }));
-              }}
-              className="px-2 py-1 bg-white text-trt-red text-[9px] font-semibold uppercase rounded-full hover:bg-white/90 transition-colors"
-            >
-              +1
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {UPCOMING_GAMES.length > 1 ? (
-        <div className="border-t border-white/20 overflow-hidden bg-trt-red/50">
-          <div className="flex items-center h-6 animate-marquee whitespace-nowrap">
-            {[...UPCOMING_GAMES.slice(1), ...UPCOMING_GAMES.slice(1)].map((g, i) => (
-              <span key={i} className="inline-flex items-center gap-2 px-6 h-full text-[8px] uppercase tracking-[0.15em] text-white/70 font-semibold border-r border-white/20">
-                <span>{g.date}</span>
-                <span>{g.home}</span>
-                <span className="text-white/50">vs</span>
-                <span>{g.away}</span>
-              </span>
-            ))}
-          </div>
-        </div>
-      ) : null}
     </div>
   );
 }
@@ -234,12 +126,12 @@ function Hero() {
               >
                 Explore Franchises <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
               </Link>
-              <Link
+              {/* <Link
                 to="/membership"
                 className="group inline-flex items-center gap-2 px-6 py-3.5 text-[11px] uppercase tracking-[0.18em] font-semibold border border-white/20 hover:border-white transition-all duration-300 rounded-xl"
               >
                 TRT Membership <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
-              </Link>
+              </Link> */}
             </div>
           </motion.div>
         </div>
@@ -257,6 +149,136 @@ function Hero() {
         </motion.div>
       </motion.div>
     </section>
+  );
+}
+
+function ScoresStandingsSection() {
+  return (
+    <section className="py-16">
+      <div className="container-x">
+        <div
+          className="rounded-[2rem] border border-white/10 p-6 md:p-8"
+          style={{ background: "rgba(255,255,255,0.02)" }}
+        >
+          <div className="flex flex-col gap-6 xl:grid xl:grid-cols-2 xl:items-start">
+
+            {/* Upcoming Games - Left */}
+            <div
+              className="rounded-[1.75rem] border border-white/10 p-6 md:p-8"
+              style={{ background: "rgba(0,0,0,0.7)" }}
+            >
+              <p className="text-[11px] uppercase tracking-[0.25em] text-trt-red">Scores</p>
+              <h2 className="font-display mt-3 text-4xl md:text-5xl leading-[0.95]">Upcoming Games</h2>
+
+              <div className="mt-6 space-y-0">
+                {/* Header row */}
+                <div
+                  className="grid grid-cols-[1fr_auto_auto_auto_auto] items-center gap-2 pb-3 mb-1"
+                  style={{ borderBottom: "1px solid rgba(255,255,255,0.08)" }}
+                >
+                  <span className="text-[9px] uppercase tracking-[0.2em] text-white/40">Home</span>
+                  <span className="text-[9px] uppercase tracking-[0.2em] text-white/40 w-8 text-center">Score</span>
+                  <span className="text-[9px] uppercase tracking-[0.2em] text-white/40 w-4 text-center"></span>
+                  <span className="text-[9px] uppercase tracking-[0.2em] text-white/40 w-8 text-center">Score</span>
+                  <span className="text-[9px] uppercase tracking-[0.2em] text-white/40 text-right">Away</span>
+                </div>
+
+                {UPCOMING_GAMES.map((game, i) => (
+                  <div
+                    key={i}
+                    className="grid grid-cols-[1fr_auto_auto_auto_1fr] items-center gap-2 py-4"
+                    style={{ borderBottom: i < UPCOMING_GAMES.length - 1 ? "1px solid rgba(255,255,255,0.06)" : "none" }}
+                  >
+                    <span className="text-sm font-semibold text-white truncate">{game.home}</span>
+                    <span
+                      className="font-display text-3xl font-bold text-white w-8 text-center"
+                    >0</span>
+                    <span className="text-white/30 text-xs w-4 text-center font-bold">—</span>
+                    <span
+                      className="font-display text-3xl font-bold text-white w-8 text-center"
+                    >0</span>
+                    <span className="text-sm font-semibold text-white truncate text-right">{game.away}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div
+                className="mt-6 pt-4 flex items-center gap-2"
+                style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}
+              >
+                <span
+                  className="inline-flex items-center gap-1.5 px-3 py-1 text-[9px] uppercase tracking-[0.2em] text-trt-red font-semibold"
+                  style={{ background: "rgba(220,38,38,0.1)", border: "1px solid rgba(220,38,38,0.2)" }}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-trt-red animate-pulse-dot" />
+                  Summer 2026
+                </span>
+                <span className="text-[9px] uppercase tracking-[0.15em] text-white/30">Inaugural Season</span>
+              </div>
+            </div>
+
+            {/* Standings - Right */}
+            <div
+              className="rounded-[1.75rem] border border-white/10 p-6 md:p-8"
+              style={{ background: "rgba(0,0,0,0.7)" }}
+            >
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <p className="text-[11px] uppercase tracking-[0.25em] text-trt-red">Standings</p>
+                  <h2 className="font-display mt-3 text-4xl md:text-5xl leading-[0.95]">League table</h2>
+                </div>
+                <span
+                  className="text-[9px] uppercase tracking-[0.2em] px-3 py-1 font-semibold"
+                  style={{ color: "rgba(255,255,255,0.5)", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }}
+                >
+                  6 teams
+                </span>
+              </div>
+              <div className="overflow-x-auto">
+                <StandingsTable />
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function StandingsTable() {
+  const teams = [
+    { name: "Brampton", gp: 0, w: 0, l: 0, pts: 0 },
+    { name: "Durham", gp: 0, w: 0, l: 0, pts: 0 },
+    { name: "Mississauga", gp: 0, w: 0, l: 0, pts: 0 },
+    { name: "Scarborough", gp: 0, w: 0, l: 0, pts: 0 },
+    { name: "Downtown", gp: 0, w: 0, l: 0, pts: 0 },
+    { name: "Vaughan", gp: 0, w: 0, l: 0, pts: 0 },
+  ];
+  return (
+    <table className="min-w-full border-collapse text-left text-sm">
+      <thead>
+        <tr>
+          {['#', 'Team', 'GP', 'W', 'L', 'PTS'].map((label) => (
+            <th key={label} className="border-b border-white/10 pb-3 text-[9px] uppercase tracking-[0.2em] text-white/40 pr-6">
+              {label}
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {teams.map((f, index) => (
+          <tr key={f.name} className="border-b border-white/10 last:border-b-0 hover:bg-white/[0.02] transition-colors">
+            <td className="py-3 text-trt-red font-bold text-sm pr-6">{index + 1}</td>
+            <td className="py-3 text-white font-semibold pr-6">{f.name}</td>
+            <td className="py-3 text-white/50 pr-6">{f.gp}</td>
+            <td className="py-3 text-white/50 pr-6">{f.w}</td>
+            <td className="py-3 text-white/50 pr-6">{f.l}</td>
+            <td className="py-3 text-white/50 font-semibold">{f.pts}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 }
 
@@ -289,6 +311,8 @@ function QuickStatsSection() {
 
 /* ── Featured Story ───────────────────────────────── */
 function FeaturedStory() {
+  const story = NEWS_STORIES[0];
+
   return (
     <section className="py-20 bg-black">
       <div className="container-x">
@@ -301,9 +325,9 @@ function FeaturedStory() {
           <Reveal delay={0.05} className="md:col-span-7">
             <div className="aspect-[16/10] md:aspect-auto md:h-full overflow-hidden bg-black relative">
               <img
-                src={crowdImg}
-                alt="TRT announcement"
-                className="h-full w-full object-cover grayscale-[30%] hover:grayscale-0 transition-all duration-700"
+                src={story.img}
+                alt={story.title}
+                className="h-full w-full object-contain hover:scale-105 transition-all duration-700"
                 loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/20 md:to-black/50" />
@@ -317,11 +341,16 @@ function FeaturedStory() {
                 Announcement
               </span>
               <h2 className="font-display mt-6 text-3xl md:text-4xl leading-[0.95] text-balance">
-                TRT unveils six founding franchise markets across the GTA
+                {story.title}
               </h2>
-              <p className="mt-6 text-white/60 text-sm leading-relaxed">
-                The Real Toronto Basketball League has confirmed its six founding franchises, bringing professional basketball to Brampton, Durham, Mississauga, Scarborough, Downtown, and Vaughan. The inaugural season tips off in 2026.
+              <p className="mt-4 text-white/70 text-sm leading-relaxed">
+                {story.subtitle}
               </p>
+              {story.body?.[0] ? (
+                <p className="mt-6 text-white/60 text-sm leading-relaxed">
+                  {story.body[0]}
+                </p>
+              ) : null}
               <Link
                 to="/media"
                 className="mt-8 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] font-semibold text-white hover:text-trt-red transition-colors"
@@ -382,9 +411,9 @@ function FeaturedStory() {
 /* ── Tickets Section ──────────────────────────────── */
 function TicketsSection() {
   const matches = [
-    { home: "Downtown Royals", away: "Brampton Kings", venue: "Downtown Arena District", date: "Jan 15, 2026", time: "7:30 PM" },
-    { home: "Scarborough East", away: "Durham Storm", venue: "Scarborough Civic Centre", date: "Jan 17, 2026", time: "7:00 PM" },
-    { home: "Vaughan Heights", away: "Mississauga Tide", venue: "Vaughan Performance Centre", date: "Jan 19, 2026", time: "6:30 PM" },
+    { home: "Downtown", away: "Brampton", venue: "Downtown Arena District", date: "Summer 2026", time: "TBC" },
+    { home: "Scarborough", away: "Durham", venue: "Scarborough Civic Centre", date: "Summer 2026", time: "TBC" },
+    { home: "Vaughan", away: "Mississauga", venue: "Vaughan Performance Centre", date: "Summer 2026", time: "TBC" },
   ];
 
   return (
@@ -394,9 +423,9 @@ function TicketsSection() {
           <p className="text-[11px] uppercase tracking-[0.25em] text-trt-red mb-3">Game Access</p>
           <div className="flex items-baseline justify-between mb-10 flex-wrap gap-4">
             <h2 className="font-display text-4xl md:text-5xl leading-[0.9]">Tickets</h2>
-            <Link to="/membership" className="text-xs uppercase tracking-[0.15em] text-white/60 hover:text-trt-red transition-colors flex items-center gap-1.5">
+            {/* <Link to="/membership" className="text-xs uppercase tracking-[0.15em] text-white/60 hover:text-trt-red transition-colors flex items-center gap-1.5">
               Founding memberships available <ArrowRight size={12} />
-            </Link>
+            </Link> */}
           </div>
         </Reveal>
 
@@ -436,13 +465,6 @@ function TicketsSection() {
 
 /* ── Store Section ────────────────────────────────── */
 function StoreSection() {
-  const products = [
-    { name: "TRT Classic Hoodie", price: "$85.00", desc: "Heavyweight black fleece with embroidered red crest logo.", img: hoodieImg },
-    { name: "TRT Monogram Cap", price: "$35.00", desc: "Structured 6-panel snapback featuring the clean shield emblem.", img: capImg },
-    { name: "Royals Inaugural Jersey", price: "$110.00", desc: "Official home jersey for the Downtown Royals. Breathable mesh.", img: jerseyImg },
-    { name: "TRT Composite Leather Ball", price: "$75.00", desc: "Indoor/Outdoor official size 7 composite leather match ball.", img: ballImg },
-  ];
-
   return (
     <section className="border-t border-white/10 py-20 bg-black">
       <div className="container-x">
@@ -450,42 +472,71 @@ function StoreSection() {
           <p className="text-[11px] uppercase tracking-[0.25em] text-trt-red mb-3">Official Merch</p>
           <div className="flex items-baseline justify-between mb-10 flex-wrap gap-4">
             <h2 className="font-display text-4xl md:text-5xl leading-[0.9]">Store</h2>
-            <span className="text-xs text-white/40">Inaugural release drops Fall 2025</span>
           </div>
         </Reveal>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {products.map((p, i) => (
-            <Reveal key={p.name} delay={i * 0.05}>
-              <div className="border border-white/10 bg-white/[0.01] hover:border-trt-red/30 transition-colors p-6 flex flex-col h-full group">
-                <div className="aspect-square bg-white/[0.02] border border-white/5 mb-6 flex items-center justify-center relative overflow-hidden">
-                  <img
-                    src={p.img}
-                    alt={p.name}
-                    className="h-full w-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
-                    loading="lazy"
-                  />
-                  <span className="absolute bottom-3 left-3 text-[10px] uppercase tracking-wider text-trt-red bg-trt-red/10 border border-trt-red/20 px-2 py-0.5">
-                    Pre-Order
-                  </span>
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-display text-xl leading-snug">{p.name}</h3>
-                  <p className="mt-2 text-xs text-white/50 leading-relaxed">{p.desc}</p>
-                </div>
-                <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
-                  <span className="font-display text-lg text-trt-red">{p.price}</span>
-                  <Link
-                    to="/contact"
-                    className="text-[10px] uppercase tracking-[0.15em] font-semibold text-white/80 hover:text-trt-red transition-colors"
-                  >
-                    Reserve Now
-                  </Link>
-                </div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
+        <Reveal delay={0.1}>
+          <div
+            className="relative flex flex-col items-center justify-center text-center py-24 px-8 overflow-hidden"
+            style={{
+              background: "linear-gradient(135deg, rgba(220,38,38,0.04) 0%, rgba(0,0,0,0) 50%, rgba(220,38,38,0.04) 100%)",
+              border: "1px solid rgba(255,255,255,0.08)",
+            }}
+          >
+            {/* Animated background orbs */}
+            <div
+              className="absolute top-0 left-1/4 w-96 h-96 rounded-full opacity-10 blur-3xl pointer-events-none"
+              style={{ background: "radial-gradient(circle, #dc2626, transparent 70%)", animation: "pulse 4s ease-in-out infinite" }}
+            />
+            <div
+              className="absolute bottom-0 right-1/4 w-64 h-64 rounded-full opacity-10 blur-3xl pointer-events-none"
+              style={{ background: "radial-gradient(circle, #dc2626, transparent 70%)", animation: "pulse 4s ease-in-out infinite 2s" }}
+            />
+
+            {/* Shopping bag icon */}
+            <div
+              className="relative mb-8 flex items-center justify-center w-24 h-24 rounded-2xl"
+              style={{
+                background: "rgba(220,38,38,0.08)",
+                border: "1px solid rgba(220,38,38,0.2)",
+                boxShadow: "0 0 40px rgba(220,38,38,0.15)",
+              }}
+            >
+              <ShoppingBag size={40} className="text-trt-red" />
+            </div>
+
+            {/* Coming Soon badge */}
+            <div
+              className="mb-6 px-4 py-1.5 text-[9px] uppercase tracking-[0.3em] font-semibold text-trt-red"
+              style={{
+                background: "rgba(220,38,38,0.1)",
+                border: "1px solid rgba(220,38,38,0.3)",
+                borderRadius: "2px",
+              }}
+            >
+              Coming Soon
+            </div>
+
+            <h3 className="font-display text-5xl md:text-6xl leading-[0.9] mb-6">
+              TRT <span className="text-trt-red">Apparel</span>
+            </h3>
+            <p className="max-w-lg text-white/50 text-sm leading-relaxed mb-10">
+              Official TRT jerseys, hoodies, caps, and merchandise are dropping soon.
+              Be the first to rep your franchise when the inaugural collection launches.
+            </p>
+
+            <Link
+              to="/contact"
+              className="group inline-flex items-center gap-2 px-7 py-3.5 text-[11px] uppercase tracking-[0.18em] font-semibold transition-all duration-300"
+              style={{
+                background: "linear-gradient(135deg, #dc2626, #b91c1c)",
+                boxShadow: "0 0 30px rgba(220,38,38,0.4)",
+              }}
+            >
+              Get Notified <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+            </Link>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

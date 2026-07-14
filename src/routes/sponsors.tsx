@@ -19,7 +19,7 @@ export const Route = createFileRoute("/sponsors")({
 const categories = [
   {
     label: "Presenting Sponsor",
-    desc: "League-wide naming rights and top-tier visibility across all six franchises, all games, all media.",
+    desc: "League naming rights and top tier visibility across all six franchises, all games, all media.",
   },
   {
     label: "Franchise Partner",
@@ -35,7 +35,7 @@ const categories = [
   },
   {
     label: "Jersey & Kit",
-    desc: "On-jersey placement and official kit partnerships. Your brand on every player, every game.",
+    desc: "On jersey placement and official kit partnerships. Your brand on every player, every game.",
   },
   {
     label: "Event Partner",
@@ -112,8 +112,8 @@ function SponsorsPage() {
           </Reveal>
           <Reveal delay={0.1}>
             <div className="space-y-6 text-white/70">
-              <p>Toronto is home to the most basketball-passionate community in Canada. TRT brings professional-level basketball directly into those communities — six distinct markets, each with their own identity and fan base.</p>
-              <p>Sponsors don't just get logo placement. They get integration into one of the most authentic sports stories in the country. Our fans don't just watch — they live this.</p>
+              <p>Toronto is home to the most basketball passionate community in Canada. TRT brings professional level basketball directly into those communities, six distinct markets, each with their own identity and fan base.</p>
+              <p>Sponsors don't just get logo placement. They get integration into one of the most authentic sports stories in the country. Our fans don't just watch. They live this.</p>
               <p>Whether you're a national brand looking for GTA market penetration or a local business wanting to own your franchise neighbourhood, TRT has the right partnership model for you.</p>
             </div>
           </Reveal>
