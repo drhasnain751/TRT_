@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { motion } from "framer-motion";
 import { Menu, X, ChevronDown, Calendar, MapPin, Ticket, CreditCard, DollarSign } from "lucide-react";
 import { TrtLogo } from "./TrtLogo";
@@ -375,7 +376,7 @@ function NavGameModal({ game, onClose }: { game: GameType; onClose: () => void }
     { tier: "Courtside", price: "$50.00", desc: "Right on the floor — the ultimate game experience", available: true },
   ];
 
-  return (
+  return createPortal(
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -512,6 +513,7 @@ function NavGameModal({ game, onClose }: { game: GameType; onClose: () => void }
           </div>
         </div>
       </motion.div>
-    </motion.div>
+    </motion.div>,
+    document.body
   );
 }
