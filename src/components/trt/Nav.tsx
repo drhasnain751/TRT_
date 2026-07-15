@@ -1,8 +1,10 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { motion } from "framer-motion";
+import { Menu, X, ChevronDown, Calendar, MapPin, Ticket, CreditCard, DollarSign } from "lucide-react";
 import { TrtLogo } from "./TrtLogo";
-import { UPCOMING_GAMES, FRANCHISES } from "../../lib/trt-data";
+import { UPCOMING_GAMES } from "../../lib/trt-data";
+type GameType = typeof UPCOMING_GAMES[0];
 
 const FRANCHISE_LINKS = [
   { slug: "brampton", city: "Brampton" },
@@ -35,6 +37,7 @@ export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [franchiseOpen, setFranchiseOpen] = useState(false);
+  const [selectedGame, setSelectedGame] = useState<GameType | null>(null);
   const headerRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -122,11 +125,28 @@ export function Nav() {
                   <div className="text-[10px] font-semibold text-white truncate">{game.venue}</div>
                   <div className="text-[8px] text-white/40 mt-1">{game.date} — Doors open {game.doors} • Tip off {game.tipoff}</div>
                 </div>
+                {/* VIEW Button */}
+                <button
+                  onClick={() => setSelectedGame(game)}
+                  className="w-full py-1.5 text-[9px] font-bold uppercase tracking-[0.2em] text-white transition-all duration-200 hover:scale-[1.03] active:scale-95"
+                  style={{
+                    background: "linear-gradient(135deg, #dc2626, #b91c1c)",
+                    borderRadius: "6px",
+                    boxShadow: "0 0 14px rgba(220,38,38,0.35)",
+                  }}
+                >
+                  View
+                </button>
               </div>
             );
           })}
         </div>
       </div>
+
+      {/* Nav Game Modal */}
+      {selectedGame && (
+        <NavGameModal game={selectedGame} onClose={() => setSelectedGame(null)} />
+      )}
 
       {/* Main nav bar */}
       <div className={`container-x flex items-center justify-between transition-all duration-300 ${scrolled ? "h-14 md:h-16" : "h-16 md:h-20"}`}>
@@ -334,5 +354,164 @@ export function Nav() {
         </div>
       )}
     </header>
+  );
+}
+
+/* ── Nav Game Modal ───────────────────────────────── */
+function NavGameModal({ game, onClose }: { game: GameType; onClose: () => void }) {
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", handler);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handler);
+    };
+  }, [onClose]);
+
+  const tickets = [
+    { tier: "General Admission", price: "$25.00", desc: "Standard seating — great view of all the action", available: true },
+    { tier: "VIP", price: "TBA", desc: "Premium seating with exclusive lounge access", available: false },
+    { tier: "Courtside", price: "$50.00", desc: "Right on the floor — the ultimate game experience", available: true },
+  ];
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
+      style={{ background: "rgba(0,0,0,0.88)", backdropFilter: "blur(16px)" }}
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.3, ease: [0.2, 0.8, 0.2, 1] }}
+        className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-2xl"
+        style={{
+          background: "#0a0a0a",
+          border: "1px solid rgba(255,255,255,0.1)",
+          boxShadow: "0 40px 120px rgba(0,0,0,0.9), 0 0 0 1px rgba(220,38,38,0.2)",
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 z-10 p-2 rounded-full transition-all hover:scale-110 active:scale-95"
+          style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)" }}
+        >
+          <X size={18} />
+        </button>
+
+        {/* Game Poster */}
+        {game.poster && (
+          <div className="w-full overflow-hidden rounded-t-2xl" style={{ maxHeight: "340px" }}>
+            <img
+              src={game.poster}
+              alt={`${game.home} vs ${game.away}`}
+              className="w-full object-cover object-top"
+              style={{ maxHeight: "340px" }}
+            />
+          </div>
+        )}
+
+        <div className="p-6 md:p-8">
+          {/* Game info chips */}
+          <div
+            className="flex flex-wrap items-center gap-3 mb-6 pb-6"
+            style={{ borderBottom: "1px solid rgba(255,255,255,0.08)" }}
+          >
+            <div
+              className="flex items-center gap-2 px-3 py-1.5"
+              style={{ background: "rgba(220,38,38,0.1)", border: "1px solid rgba(220,38,38,0.25)", borderRadius: "6px" }}
+            >
+              <Calendar size={12} className="text-trt-red" />
+              <span className="text-[10px] uppercase tracking-[0.15em] text-trt-red font-bold">
+                {game.date} — Doors {game.doors} • Tip off {game.tipoff}
+              </span>
+            </div>
+            <div
+              className="flex items-center gap-2 px-3 py-1.5"
+              style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "6px" }}
+            >
+              <MapPin size={12} className="text-white/40" />
+              <span className="text-[10px] uppercase tracking-[0.12em] text-white/60">{game.venue}</span>
+            </div>
+          </div>
+
+          {/* Ticket Prices */}
+          <div className="mb-6">
+            <div className="flex items-center gap-2 mb-4">
+              <Ticket size={16} className="text-trt-red" />
+              <h3 className="font-display text-2xl text-white">Ticket Prices</h3>
+            </div>
+            <div className="grid sm:grid-cols-3 gap-3">
+              {tickets.map((t) => (
+                <div
+                  key={t.tier}
+                  className="relative rounded-xl p-4 flex flex-col gap-2"
+                  style={{
+                    background: t.available ? "rgba(220,38,38,0.05)" : "rgba(255,255,255,0.02)",
+                    border: t.available ? "1px solid rgba(220,38,38,0.25)" : "1px solid rgba(255,255,255,0.08)",
+                  }}
+                >
+                  {t.tier === "VIP" && (
+                    <span
+                      className="absolute top-2 right-2 text-[8px] uppercase tracking-[0.15em] font-bold px-2 py-0.5 rounded-full"
+                      style={{ background: "rgba(255,200,0,0.15)", color: "#ffc107", border: "1px solid rgba(255,200,0,0.3)" }}
+                    >Coming Soon</span>
+                  )}
+                  <p className="text-[9px] uppercase tracking-[0.2em] text-white/50">{t.tier}</p>
+                  <p
+                    className="font-display text-3xl leading-none"
+                    style={{ color: t.available ? "#dc2626" : "rgba(255,255,255,0.3)" }}
+                  >
+                    {t.price}
+                  </p>
+                  <p className="text-[10px] text-white/40 leading-relaxed">{t.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Payment */}
+          <div
+            className="rounded-xl p-5"
+            style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.08)" }}
+          >
+            <div className="flex items-center gap-2 mb-4">
+              <CreditCard size={15} className="text-trt-red" />
+              <h4 className="text-sm font-semibold uppercase tracking-[0.15em] text-white/80">How to Get Tickets</h4>
+            </div>
+            <p className="text-xs text-white/50 leading-relaxed mb-4">
+              Secure your seat for the inaugural Mississauga vs Scarborough Pro Am Showcase.
+              All major payment methods accepted.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                to="/contact"
+                className="inline-flex items-center gap-2 px-5 py-2.5 text-[11px] uppercase tracking-[0.18em] font-semibold text-white transition-all duration-200 hover:scale-105 active:scale-95"
+                style={{
+                  background: "linear-gradient(135deg, #dc2626, #b91c1c)",
+                  borderRadius: "8px",
+                  boxShadow: "0 0 24px rgba(220,38,38,0.35)",
+                }}
+                onClick={onClose}
+              >
+                <Ticket size={13} /> Buy Tickets
+              </Link>
+              <div
+                className="inline-flex items-center gap-2 px-5 py-2.5 text-[11px] uppercase tracking-[0.18em] font-semibold text-white/50"
+                style={{ border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px" }}
+              >
+                <DollarSign size={12} /> Cash • Card • E-Transfer
+              </div>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
   );
 }
