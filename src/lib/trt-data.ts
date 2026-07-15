@@ -520,9 +520,14 @@ export function priceForFounder(n: number): number {
 }
 
 export const UPCOMING_GAMES = [
-  { home: "Brampton", away: "Durham", date: "Summer 2026", time: "TBC", venue: "TBC" },
-  { home: "Mississauga", away: "Scarborough", date: "Summer 2026", time: "TBC", venue: "TBC" },
-  { home: "Downtown", away: "Vaughan", date: "Summer 2026", time: "TBC", venue: "TBC" },
+  {
+    home: "Mississauga",
+    away: "Scarborough",
+    date: "August 2",
+    venue: "Toronto Pan Am Sports Centre",
+    doors: "4:00pm",
+    tipoff: "5:00pm",
+  },
 ];
 
 export type NewsStory = {

@@ -116,7 +116,10 @@ export function Nav() {
                     <div className="text-2xl font-bold text-white">{score.awayScore}</div>
                   </div>
                 </div>
-                <div className="text-[8px] text-white/40 text-center mb-2 pb-2 border-t border-white/10">{game.date}</div>
+                <div className="text-[9px] text-white/60 text-center mb-2 pb-2 border-t border-white/10">
+                  <div className="text-[10px] font-semibold text-white truncate">{game.venue}</div>
+                  <div className="text-[8px] text-white/40 mt-1">{game.date} — Doors open {game.doors} • Tip off {game.tipoff}</div>
+                </div>
                 <button
                   className="w-full px-2 py-1 text-trt-red text-[8px] font-semibold uppercase rounded transition-all"
                   style={{
