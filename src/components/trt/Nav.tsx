@@ -407,12 +407,11 @@ function NavGameModal({ game, onClose }: { game: GameType; onClose: () => void }
 
         {/* Game Poster */}
         {game.poster && (
-          <div className="w-full overflow-hidden rounded-t-2xl" style={{ maxHeight: "340px" }}>
+          <div className="w-full bg-[#0a0a0a] flex justify-center items-center rounded-t-2xl overflow-hidden" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
             <img
               src={game.poster}
               alt={`${game.home} vs ${game.away}`}
-              className="w-full object-cover object-top"
-              style={{ maxHeight: "340px" }}
+              className="w-full h-auto max-h-[500px] object-contain"
             />
           </div>
         )}
