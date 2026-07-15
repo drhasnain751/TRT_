@@ -61,6 +61,26 @@ export function Nav() {
     document.documentElement.style.setProperty("--header-height", `${headerRef.current.offsetHeight}px`);
   }, [scrolled]);
 
+  // Auto-update scores every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // Simulate score updates - replace with actual API call
+      const randomScores: Record<string, { homeScore: number; awayScore: number }> = {};
+      UPCOMING_GAMES.forEach((game) => {
+        const gameKey = `${game.home}_${game.away}`;
+        const currentScore = gameScores[gameKey] || { homeScore: 0, awayScore: 0 };
+        // Randomly increment scores (replace with real API data)
+        randomScores[gameKey] = {
+          homeScore: Math.floor(Math.random() * 120),
+          awayScore: Math.floor(Math.random() * 120),
+        };
+      });
+      setGameScores(randomScores);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [gameScores]);
+
   return (
     <header
       ref={headerRef}
