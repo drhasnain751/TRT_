@@ -109,11 +109,11 @@ export function Nav() {
                 <div className="space-y-2 mb-2">
                   <div className="flex items-baseline justify-between gap-2">
                     <div className="text-xs font-bold text-white uppercase flex-1">{game.home}</div>
-                    <div className="text-2xl font-bold text-white">{score.homeScore}</div>
+                    <div className="text-2xl font-bold text-white transition-all duration-300 ease-out transform hover:scale-110 animate-pulse">{score.homeScore}</div>
                   </div>
                   <div className="flex items-baseline justify-between gap-2">
                     <div className="text-xs font-bold text-white uppercase flex-1">{game.away}</div>
-                    <div className="text-2xl font-bold text-white">{score.awayScore}</div>
+                    <div className="text-2xl font-bold text-white transition-all duration-300 ease-out transform hover:scale-110 animate-pulse">{score.awayScore}</div>
                   </div>
                 </div>
                 <div className="text-[9px] text-white/60 text-center mb-2 pb-2 border-t border-white/10">
