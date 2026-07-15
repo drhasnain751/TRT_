@@ -523,8 +523,6 @@ export const UPCOMING_GAMES = [
   {
     home: "Mississauga",
     away: "Scarborough",
-    homeScore: 77,
-    awayScore: 109,
     date: "August 2",
     venue: "Toronto Pan Am Sports Centre",
     doors: "4:00pm",

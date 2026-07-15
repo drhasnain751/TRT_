@@ -196,12 +196,12 @@ function ScoresStandingsSection({ onViewGame }: { onViewGame: (game: typeof UPCO
                     </div>
 
                     {/* Teams row */}
-                    <div className="px-4 py-4">
+                    <div className="px-4 py-5">
                       <div className="flex items-center justify-between gap-2">
                         {/* Home team */}
                         <div className="flex flex-col items-start min-w-0 flex-1">
                           <span
-                            className="font-display text-lg sm:text-2xl font-bold text-white leading-none whitespace-nowrap"
+                            className="font-display font-bold text-white leading-none whitespace-nowrap"
                             style={{ fontSize: "clamp(14px, 3.5vw, 24px)" }}
                           >
                             {game.home}
@@ -209,17 +209,21 @@ function ScoresStandingsSection({ onViewGame }: { onViewGame: (game: typeof UPCO
                           <span className="text-[9px] uppercase tracking-[0.15em] text-white/40 mt-1">Home</span>
                         </div>
 
-                        {/* Score */}
-                        <div className="flex items-center gap-2 flex-shrink-0 px-2">
-                          <span className="font-display text-3xl font-bold text-white">77</span>
-                          <span className="text-white/30 text-sm font-bold">—</span>
-                          <span className="font-display text-3xl font-bold text-white">109</span>
+                        {/* VS Badge */}
+                        <div
+                          className="flex-shrink-0 flex flex-col items-center justify-center w-12 h-12 rounded-full"
+                          style={{
+                            background: "rgba(220,38,38,0.12)",
+                            border: "1px solid rgba(220,38,38,0.3)",
+                          }}
+                        >
+                          <span className="font-display text-trt-red text-sm font-bold leading-none">VS</span>
                         </div>
 
                         {/* Away team */}
                         <div className="flex flex-col items-end min-w-0 flex-1">
                           <span
-                            className="font-display text-lg sm:text-2xl font-bold text-white leading-none whitespace-nowrap text-right"
+                            className="font-display font-bold text-white leading-none whitespace-nowrap text-right"
                             style={{ fontSize: "clamp(14px, 3.5vw, 24px)" }}
                           >
                             {game.away}

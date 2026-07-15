@@ -105,13 +105,17 @@ export function Nav() {
                   <p className="text-[8px] uppercase tracking-[0.1em] text-trt-red font-bold">Upcoming</p>
                 </div>
                 <div className="space-y-2 mb-2">
-                  <div className="flex items-baseline justify-between gap-2">
+                  <div className="flex items-center justify-between gap-2">
                     <div className="text-xs font-bold text-white uppercase flex-1 truncate">{game.home}</div>
-                    <div className="text-2xl font-bold text-white">{game.homeScore ?? 0}</div>
                   </div>
-                  <div className="flex items-baseline justify-between gap-2">
+                  <div className="flex items-center justify-center">
+                    <span
+                      className="text-[9px] font-bold uppercase tracking-[0.2em] px-3 py-1"
+                      style={{ background: "rgba(220,38,38,0.15)", border: "1px solid rgba(220,38,38,0.3)", borderRadius: "4px", color: "#dc2626" }}
+                    >VS</span>
+                  </div>
+                  <div className="flex items-center justify-between gap-2">
                     <div className="text-xs font-bold text-white uppercase flex-1 truncate">{game.away}</div>
-                    <div className="text-2xl font-bold text-white">{game.awayScore ?? 0}</div>
                   </div>
                 </div>
                 <div className="text-[9px] text-white/60 text-center mb-2 pb-2 border-t border-white/10">
