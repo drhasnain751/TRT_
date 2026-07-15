@@ -35,7 +35,6 @@ export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [franchiseOpen, setFranchiseOpen] = useState(false);
-  const [gameScores, setGameScores] = useState<Record<string, { homeScore: number; awayScore: number }>>({});
   const headerRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -90,12 +89,11 @@ export function Nav() {
         <div className="px-4 py-3 flex gap-3 min-w-min">
           {UPCOMING_GAMES.map((game) => {
             const gameKey = `${game.home}_${game.away}`;
-            const score = gameScores[gameKey] || { homeScore: 0, awayScore: 0 };
 
             return (
               <div
                 key={gameKey}
-                className="flex-shrink-0 w-64 rounded-lg p-3 transition-all duration-200 hover:scale-[1.02]"
+                className="flex-shrink-0 w-72 rounded-lg p-3 transition-all duration-200 hover:scale-[1.02]"
                 style={{
                   background: "rgba(255,255,255,0.03)",
                   border: "1px solid rgba(255,255,255,0.08)",
@@ -103,32 +101,23 @@ export function Nav() {
                 }}
               >
                 <div className="text-center mb-2">
-                  <p className="text-[8px] uppercase tracking-[0.15em] text-white/50 font-semibold">Championship 2025-26</p>
-                  <p className="text-[8px] uppercase tracking-[0.1em] text-trt-red font-bold">Final</p>
+                  <p className="text-[8px] uppercase tracking-[0.15em] text-white/50 font-semibold">Pro Am Showcase</p>
+                  <p className="text-[8px] uppercase tracking-[0.1em] text-trt-red font-bold">Upcoming</p>
                 </div>
                 <div className="space-y-2 mb-2">
                   <div className="flex items-baseline justify-between gap-2">
-                    <div className="text-xs font-bold text-white uppercase flex-1">{game.home}</div>
-                    <div className="text-2xl font-bold text-white transition-all duration-300 ease-out transform hover:scale-110 animate-pulse">{score.homeScore}</div>
+                    <div className="text-xs font-bold text-white uppercase flex-1 truncate">{game.home}</div>
+                    <div className="text-2xl font-bold text-white">{game.homeScore ?? 0}</div>
                   </div>
                   <div className="flex items-baseline justify-between gap-2">
-                    <div className="text-xs font-bold text-white uppercase flex-1">{game.away}</div>
-                    <div className="text-2xl font-bold text-white transition-all duration-300 ease-out transform hover:scale-110 animate-pulse">{score.awayScore}</div>
+                    <div className="text-xs font-bold text-white uppercase flex-1 truncate">{game.away}</div>
+                    <div className="text-2xl font-bold text-white">{game.awayScore ?? 0}</div>
                   </div>
                 </div>
                 <div className="text-[9px] text-white/60 text-center mb-2 pb-2 border-t border-white/10">
                   <div className="text-[10px] font-semibold text-white truncate">{game.venue}</div>
                   <div className="text-[8px] text-white/40 mt-1">{game.date} — Doors open {game.doors} • Tip off {game.tipoff}</div>
                 </div>
-                <button
-                  className="w-full px-2 py-1 text-trt-red text-[8px] font-semibold uppercase rounded transition-all"
-                  style={{
-                    background: "rgba(220,38,38,0.12)",
-                    border: "1px solid rgba(220,38,38,0.3)",
-                  }}
-                >
-                  VIEW
-                </button>
               </div>
             );
           })}

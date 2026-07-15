@@ -528,7 +528,8 @@ export const UPCOMING_GAMES = [
     date: "August 2",
     venue: "Toronto Pan Am Sports Centre",
     doors: "4:00pm",
-    tipoff: "5:00pm",
+    tipoff: "5:30pm",
+    poster: "/assets/mississauga-vs-scarborough-poster.jpg",
   },
 ];
 

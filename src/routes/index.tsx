@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef, useState } from "react";
-import { ArrowRight, ArrowDown, MapPin, Calendar, Ticket, ShoppingBag } from "lucide-react";
+import { useRef, useState, useEffect } from "react";
+import { ArrowRight, ArrowDown, MapPin, Calendar, Ticket, ShoppingBag, X, CreditCard, DollarSign } from "lucide-react";
 import { Nav } from "@/components/trt/Nav";
 import { Footer } from "@/components/trt/Footer";
 import { Reveal } from "@/components/trt/Reveal";
@@ -30,11 +30,13 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const [selectedGame, setSelectedGame] = useState<typeof UPCOMING_GAMES[0] | null>(null);
+
   return (
     <div className="bg-black text-white overflow-hidden" style={{ paddingTop: 'var(--header-height)' }}>
       <Nav />
       <Hero />
-      <ScoresStandingsSection />
+      <ScoresStandingsSection onViewGame={setSelectedGame} />
       <Marquee items={["Toronto", "Scarborough", "Brampton", "Vaughan", "Mississauga", "Durham", "Downtown", "Legacy Lives Here"]} />
 
       {/* Single Main Featured Story */}
@@ -56,6 +58,11 @@ function Index() {
       <CommunityBanner />
 
       <Footer />
+
+      {/* Game Detail Modal */}
+      {selectedGame && (
+        <GameModal game={selectedGame} onClose={() => setSelectedGame(null)} />
+      )}
     </div>
   );
 }
@@ -152,7 +159,7 @@ function Hero() {
   );
 }
 
-function ScoresStandingsSection() {
+function ScoresStandingsSection({ onViewGame }: { onViewGame: (game: typeof UPCOMING_GAMES[0]) => void }) {
   return (
     <section className="py-16">
       <div className="container-x">
@@ -170,34 +177,76 @@ function ScoresStandingsSection() {
               <p className="text-[11px] uppercase tracking-[0.25em] text-trt-red">Scores</p>
               <h2 className="font-display mt-3 text-4xl md:text-5xl leading-[0.95]">Upcoming Games</h2>
 
-              <div className="mt-6 space-y-0">
-                {/* Header row */}
-                <div
-                  className="grid grid-cols-[1fr_auto_auto_auto_auto] items-center gap-2 pb-3 mb-1"
-                  style={{ borderBottom: "1px solid rgba(255,255,255,0.08)" }}
-                >
-                  <span className="text-[9px] uppercase tracking-[0.2em] text-white/40">Home</span>
-                  <span className="text-[9px] uppercase tracking-[0.2em] text-white/40 w-8 text-center">Score</span>
-                  <span className="text-[9px] uppercase tracking-[0.2em] text-white/40 w-4 text-center"></span>
-                  <span className="text-[9px] uppercase tracking-[0.2em] text-white/40 w-8 text-center">Score</span>
-                  <span className="text-[9px] uppercase tracking-[0.2em] text-white/40 text-right">Away</span>
-                </div>
-
+              <div className="mt-6 space-y-3">
                 {UPCOMING_GAMES.map((game, i) => (
                   <div
                     key={i}
-                    className="grid grid-cols-[1fr_auto_auto_auto_1fr] items-center gap-2 py-4"
-                    style={{ borderBottom: i < UPCOMING_GAMES.length - 1 ? "1px solid rgba(255,255,255,0.06)" : "none" }}
+                    className="rounded-xl overflow-hidden"
+                    style={{ border: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.02)" }}
                   >
-                    <span className="text-sm font-semibold text-white truncate">{game.home}</span>
-                    <span
-                      className="font-display text-3xl font-bold text-white w-8 text-center"
-                    >0</span>
-                    <span className="text-white/30 text-xs w-4 text-center font-bold">—</span>
-                    <span
-                      className="font-display text-3xl font-bold text-white w-8 text-center"
-                    >0</span>
-                    <span className="text-sm font-semibold text-white truncate text-right">{game.away}</span>
+                    {/* Date/venue bar */}
+                    <div
+                      className="px-4 py-2 flex items-center gap-2 flex-wrap"
+                      style={{ background: "rgba(220,38,38,0.08)", borderBottom: "1px solid rgba(220,38,38,0.15)" }}
+                    >
+                      <Calendar size={11} className="text-trt-red flex-shrink-0" />
+                      <span className="text-[10px] uppercase tracking-[0.15em] text-trt-red font-semibold">
+                        {game.date} — Doors open {game.doors} • Tip off {game.tipoff}
+                      </span>
+                    </div>
+
+                    {/* Teams row */}
+                    <div className="px-4 py-4">
+                      <div className="flex items-center justify-between gap-2">
+                        {/* Home team */}
+                        <div className="flex flex-col items-start min-w-0 flex-1">
+                          <span
+                            className="font-display text-lg sm:text-2xl font-bold text-white leading-none whitespace-nowrap"
+                            style={{ fontSize: "clamp(14px, 3.5vw, 24px)" }}
+                          >
+                            {game.home}
+                          </span>
+                          <span className="text-[9px] uppercase tracking-[0.15em] text-white/40 mt-1">Home</span>
+                        </div>
+
+                        {/* Score */}
+                        <div className="flex items-center gap-2 flex-shrink-0 px-2">
+                          <span className="font-display text-3xl font-bold text-white">77</span>
+                          <span className="text-white/30 text-sm font-bold">—</span>
+                          <span className="font-display text-3xl font-bold text-white">109</span>
+                        </div>
+
+                        {/* Away team */}
+                        <div className="flex flex-col items-end min-w-0 flex-1">
+                          <span
+                            className="font-display text-lg sm:text-2xl font-bold text-white leading-none whitespace-nowrap text-right"
+                            style={{ fontSize: "clamp(14px, 3.5vw, 24px)" }}
+                          >
+                            {game.away}
+                          </span>
+                          <span className="text-[9px] uppercase tracking-[0.15em] text-white/40 mt-1 text-right">Away</span>
+                        </div>
+                      </div>
+
+                      {/* Venue + View button */}
+                      <div className="mt-3 pt-3 flex items-center justify-between gap-2" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+                        <div className="flex items-center gap-1.5 min-w-0">
+                          <MapPin size={11} className="text-white/30 flex-shrink-0" />
+                          <span className="text-[10px] text-white/40 truncate">{game.venue}</span>
+                        </div>
+                        <button
+                          onClick={() => onViewGame(game)}
+                          className="flex-shrink-0 px-4 py-1.5 text-[9px] font-bold uppercase tracking-[0.2em] text-white transition-all duration-200 hover:scale-105 active:scale-95"
+                          style={{
+                            background: "linear-gradient(135deg, #dc2626, #b91c1c)",
+                            borderRadius: "6px",
+                            boxShadow: "0 0 16px rgba(220,38,38,0.4)",
+                          }}
+                        >
+                          View
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -243,6 +292,165 @@ function ScoresStandingsSection() {
         </div>
       </div>
     </section>
+  );
+}
+
+/* ── Game Modal ───────────────────────────────────── */
+function GameModal({ game, onClose }: { game: typeof UPCOMING_GAMES[0]; onClose: () => void }) {
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", handler);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handler);
+    };
+  }, [onClose]);
+
+  const tickets = [
+    { tier: "General Admission", price: "$25.00", desc: "Standard seating — great view of all the action", available: true },
+    { tier: "VIP", price: "TBA", desc: "Premium seating with exclusive lounge access", available: false },
+    { tier: "Courtside", price: "$50.00", desc: "Right on the floor — the ultimate game experience", available: true },
+  ];
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[200] flex items-center justify-center p-4"
+      style={{ background: "rgba(0,0,0,0.88)", backdropFilter: "blur(16px)" }}
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.3, ease: [0.2, 0.8, 0.2, 1] }}
+        className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-2xl"
+        style={{
+          background: "#0a0a0a",
+          border: "1px solid rgba(255,255,255,0.1)",
+          boxShadow: "0 40px 120px rgba(0,0,0,0.9), 0 0 0 1px rgba(220,38,38,0.2)",
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 z-10 p-2 rounded-full transition-all hover:scale-110 active:scale-95"
+          style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)" }}
+        >
+          <X size={18} />
+        </button>
+
+        {/* Game Poster */}
+        {game.poster && (
+          <div className="w-full overflow-hidden rounded-t-2xl" style={{ maxHeight: "340px" }}>
+            <img
+              src={game.poster}
+              alt={`${game.home} vs ${game.away}`}
+              className="w-full h-full object-cover object-top"
+              style={{ maxHeight: "340px" }}
+            />
+          </div>
+        )}
+
+        <div className="p-6 md:p-8">
+          {/* Game info */}
+          <div
+            className="flex flex-wrap items-center gap-3 mb-6 pb-6"
+            style={{ borderBottom: "1px solid rgba(255,255,255,0.08)" }}
+          >
+            <div
+              className="flex items-center gap-2 px-3 py-1.5"
+              style={{ background: "rgba(220,38,38,0.1)", border: "1px solid rgba(220,38,38,0.25)", borderRadius: "6px" }}
+            >
+              <Calendar size={12} className="text-trt-red" />
+              <span className="text-[10px] uppercase tracking-[0.15em] text-trt-red font-bold">
+                {game.date} — Doors {game.doors} • Tip off {game.tipoff}
+              </span>
+            </div>
+            <div
+              className="flex items-center gap-2 px-3 py-1.5"
+              style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "6px" }}
+            >
+              <MapPin size={12} className="text-white/40" />
+              <span className="text-[10px] uppercase tracking-[0.12em] text-white/60">{game.venue}</span>
+            </div>
+          </div>
+
+          {/* Ticket Prices */}
+          <div className="mb-6">
+            <div className="flex items-center gap-2 mb-4">
+              <Ticket size={16} className="text-trt-red" />
+              <h3 className="font-display text-2xl">Ticket Prices</h3>
+            </div>
+            <div className="grid sm:grid-cols-3 gap-3">
+              {tickets.map((t) => (
+                <div
+                  key={t.tier}
+                  className="relative rounded-xl p-4 flex flex-col gap-2"
+                  style={{
+                    background: t.available ? "rgba(220,38,38,0.05)" : "rgba(255,255,255,0.02)",
+                    border: t.available ? "1px solid rgba(220,38,38,0.25)" : "1px solid rgba(255,255,255,0.08)",
+                  }}
+                >
+                  {t.tier === "VIP" && (
+                    <span
+                      className="absolute top-2 right-2 text-[8px] uppercase tracking-[0.15em] font-bold px-2 py-0.5 rounded-full"
+                      style={{ background: "rgba(255,200,0,0.15)", color: "#ffc107", border: "1px solid rgba(255,200,0,0.3)" }}
+                    >Coming Soon</span>
+                  )}
+                  <p className="text-[9px] uppercase tracking-[0.2em] text-white/50">{t.tier}</p>
+                  <p
+                    className="font-display text-3xl leading-none"
+                    style={{ color: t.available ? "#dc2626" : "rgba(255,255,255,0.3)" }}
+                  >
+                    {t.price}
+                  </p>
+                  <p className="text-[10px] text-white/40 leading-relaxed">{t.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Payment */}
+          <div
+            className="rounded-xl p-5"
+            style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.08)" }}
+          >
+            <div className="flex items-center gap-2 mb-4">
+              <CreditCard size={15} className="text-trt-red" />
+              <h4 className="text-sm font-semibold uppercase tracking-[0.15em] text-white/80">How to Get Tickets</h4>
+            </div>
+            <p className="text-xs text-white/50 leading-relaxed mb-4">
+              Secure your seat for the inaugural Mississauga vs Scarborough Pro Am Showcase.
+              All major payment methods accepted.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                to="/contact"
+                className="inline-flex items-center gap-2 px-5 py-2.5 text-[11px] uppercase tracking-[0.18em] font-semibold text-white transition-all duration-200 hover:scale-105 active:scale-95"
+                style={{
+                  background: "linear-gradient(135deg, #dc2626, #b91c1c)",
+                  borderRadius: "8px",
+                  boxShadow: "0 0 24px rgba(220,38,38,0.35)",
+                }}
+                onClick={onClose}
+              >
+                <Ticket size={13} /> Buy Tickets
+              </Link>
+              <div
+                className="inline-flex items-center gap-2 px-5 py-2.5 text-[11px] uppercase tracking-[0.18em] font-semibold text-white/50"
+                style={{ border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px" }}
+              >
+                <DollarSign size={12} /> Cash • Card • E-Transfer
+              </div>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
   );
 }
 
