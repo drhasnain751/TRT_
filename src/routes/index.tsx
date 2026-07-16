@@ -36,7 +36,8 @@ function Index() {
     <div className="bg-black text-white overflow-hidden" style={{ paddingTop: 'var(--header-height)' }}>
       <Nav />
       <Hero />
-      <ScoresStandingsSection onViewGame={() => {}} />
+      <ScoresStandingsSection onViewGame={setSelectedGame} />
+      {selectedGame && <GameModal game={selectedGame} onClose={() => setSelectedGame(null)} />}
       <Marquee items={["Toronto", "Brampton", "Downtown", "Durham", "Mississauga", "Scarborough", "Vaughan", "Legacy Lives Here"]} />
 
       {/* Single Main Featured Story */}
@@ -212,6 +213,7 @@ function ScoresStandingsSection({ onViewGame }: { onViewGame: (game: typeof UPCO
                         </p>
                         <button
                           type="button"
+                          onClick={() => onViewGame(game)}
                           className="rounded-full bg-trt-red px-6 py-2 text-sm font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-white hover:text-black"
                         >
                           View
