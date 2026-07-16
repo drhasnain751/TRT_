@@ -543,7 +543,7 @@ function FeaturedStory() {
         </Reveal>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10 border border-white/10">
-          {FRANCHISES.map((f, i) => (
+          {FRANCHISES.slice().sort((a, b) => a.city.localeCompare(b.city)).map((f, i) => (
             <Reveal key={f.slug} delay={i * 0.04}>
               <Link
                 to="/franchises/$slug"

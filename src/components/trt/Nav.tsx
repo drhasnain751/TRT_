@@ -9,10 +9,10 @@ type GameType = typeof UPCOMING_GAMES[0];
 
 const FRANCHISE_LINKS = [
   { slug: "brampton", city: "Brampton" },
+  { slug: "downtown-toronto", city: "Downtown" },
   { slug: "durham", city: "Durham" },
   { slug: "mississauga", city: "Mississauga" },
   { slug: "scarborough", city: "Scarborough" },
-  { slug: "downtown-toronto", city: "Downtown" },
   { slug: "vaughan", city: "Vaughan" },
 ];
 

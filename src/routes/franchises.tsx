@@ -24,7 +24,7 @@ export const Route = createFileRoute("/franchises")({
   head: () => ({
     meta: [
       { title: "Franchises — TRT" },
-      { name: "description", content: "Six franchises across the Greater Toronto Area. Brampton, Durham, Mississauga, Scarborough, Downtown, Vaughan." },
+      { name: "description", content: "Six franchises across the Greater Toronto Area. Brampton, Downtown, Durham, Mississauga, Scarborough, Vaughan." },
       { property: "og:title", content: "TRT Franchises" },
       { property: "og:description", content: "Six franchises. One regional identity. Meet the founding teams." },
     ],
@@ -53,7 +53,7 @@ function FranchisesPage() {
       <section className="py-12 md:py-20">
         <div className="container-x">
           <ul className="space-y-4">
-            {FRANCHISES.map((f, i) => (
+            {FRANCHISES.slice().sort((a, b) => a.city.localeCompare(b.city)).map((f, i) => (
               <Reveal key={f.slug} delay={i * 0.06}>
                 <li>
                   <Link
