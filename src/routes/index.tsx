@@ -169,40 +169,54 @@ function ScoresStandingsSection({ onViewGame }: { onViewGame: (game: typeof UPCO
               <p className="text-[11px] uppercase tracking-[0.25em] text-trt-red">Scores</p>
               <h2 className="font-display mt-3 text-4xl md:text-5xl leading-[0.95]">Upcoming Games</h2>
 
-              <div className="mt-6 space-y-3">
+              <div className="mt-6">
                 {UPCOMING_GAMES.map((game, i) => (
                   <div
                     key={i}
-                    className="rounded-xl overflow-hidden p-6"
-                    style={{ border: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.02)" }}
+                    className="rounded-xl overflow-hidden border border-white/10"
+                    style={{ background: "rgba(255,255,255,0.02)" }}
                   >
-                    <div className="flex items-center justify-between gap-4">
-                      {/* Home team */}
-                      <span
-                        className="font-display font-bold text-white leading-none whitespace-nowrap"
-                        style={{ fontSize: "clamp(18px, 4vw, 32px)" }}
-                      >
-                        {game.home}
-                      </span>
+                    <div className="bg-white/5 px-5 py-4 text-xs uppercase tracking-[0.32em] text-trt-red">
+                      {game.date} — Doors open {game.doors} • Tip off {game.tipoff}
+                    </div>
 
-                      {/* VS Badge */}
-                      <div
-                        className="flex-shrink-0 flex flex-col items-center justify-center w-12 h-12 rounded-full"
-                        style={{
-                          background: "rgba(220,38,38,0.12)",
-                          border: "1px solid rgba(220,38,38,0.3)",
-                        }}
-                      >
-                        <span className="font-display text-trt-red text-sm font-bold leading-none">VS</span>
+                    <div className="px-6 py-8">
+                      <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 text-center">
+                        <div>
+                          <p className="font-display text-2xl md:text-3xl font-bold text-white">
+                            {game.home}
+                          </p>
+                          <p className="mt-2 text-[11px] uppercase tracking-[0.26em] text-white/40">
+                            Home
+                          </p>
+                        </div>
+
+                        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-red-500 bg-red-500/10">
+                          <span className="font-display text-trt-red text-base font-bold">VS</span>
+                        </div>
+
+                        <div>
+                          <p className="font-display text-2xl md:text-3xl font-bold text-white">
+                            {game.away}
+                          </p>
+                          <p className="mt-2 text-[11px] uppercase tracking-[0.26em] text-white/40">
+                            Away
+                          </p>
+                        </div>
                       </div>
 
-                      {/* Away team */}
-                      <span
-                        className="font-display font-bold text-white leading-none whitespace-nowrap text-right"
-                        style={{ fontSize: "clamp(18px, 4vw, 32px)" }}
-                      >
-                        {game.away}
-                      </span>
+                      <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-5">
+                        <p className="flex items-center gap-2 text-sm text-white/70">
+                          <span className="inline-block h-2 w-2 rounded-full bg-white/40" />
+                          {game.venue}
+                        </p>
+                        <button
+                          type="button"
+                          className="rounded-full bg-trt-red px-6 py-2 text-sm font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-white hover:text-black"
+                        >
+                          View
+                        </button>
+                      </div>
                     </div>
                   </div>
                 ))}
