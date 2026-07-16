@@ -521,8 +521,8 @@ export function priceForFounder(n: number): number {
 
 export const UPCOMING_GAMES = [
   {
-    home: "Mississauga",
-    away: "Scarborough",
+    home: "Scarborough",
+    away: "Mississauga",
     date: "August 2",
     venue: "Toronto Pan Am Sports Centre",
     doors: "4:00pm",

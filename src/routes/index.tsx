@@ -36,7 +36,7 @@ function Index() {
     <div className="bg-black text-white overflow-hidden" style={{ paddingTop: 'var(--header-height)' }}>
       <Nav />
       <Hero />
-      <ScoresStandingsSection onViewGame={setSelectedGame} />
+      <ScoresStandingsSection onViewGame={() => {}} />
       <Marquee items={["Toronto", "Scarborough", "Brampton", "Vaughan", "Mississauga", "Durham", "Downtown", "Legacy Lives Here"]} />
 
       {/* Single Main Featured Story */}
@@ -48,9 +48,6 @@ function Index() {
       {/* Franchise Grid / Teams Selection */}
        <FranchiseGrid /> 
 
-      {/* New: Tickets section */}
-      <TicketsSection />
-
       {/* New: Store Section */}
       <StoreSection />
 
@@ -58,11 +55,6 @@ function Index() {
       <CommunityBanner />
 
       <Footer />
-
-      {/* Game Detail Modal */}
-      {selectedGame && (
-        <GameModal game={selectedGame} onClose={() => setSelectedGame(null)} />
-      )}
     </div>
   );
 }
@@ -181,75 +173,36 @@ function ScoresStandingsSection({ onViewGame }: { onViewGame: (game: typeof UPCO
                 {UPCOMING_GAMES.map((game, i) => (
                   <div
                     key={i}
-                    className="rounded-xl overflow-hidden"
+                    className="rounded-xl overflow-hidden p-6"
                     style={{ border: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.02)" }}
                   >
-                    {/* Date/venue bar */}
-                    <div
-                      className="px-4 py-2 flex items-center gap-2 flex-wrap"
-                      style={{ background: "rgba(220,38,38,0.08)", borderBottom: "1px solid rgba(220,38,38,0.15)" }}
-                    >
-                      <Calendar size={11} className="text-trt-red flex-shrink-0" />
-                      <span className="text-[10px] uppercase tracking-[0.15em] text-trt-red font-semibold">
-                        {game.date} — Doors open {game.doors} • Tip off {game.tipoff}
+                    <div className="flex items-center justify-between gap-4">
+                      {/* Home team */}
+                      <span
+                        className="font-display font-bold text-white leading-none whitespace-nowrap"
+                        style={{ fontSize: "clamp(18px, 4vw, 32px)" }}
+                      >
+                        {game.home}
                       </span>
-                    </div>
 
-                    {/* Teams row */}
-                    <div className="px-4 py-5">
-                      <div className="flex items-center justify-between gap-2">
-                        {/* Home team */}
-                        <div className="flex flex-col items-start min-w-0 flex-1">
-                          <span
-                            className="font-display font-bold text-white leading-none whitespace-nowrap"
-                            style={{ fontSize: "clamp(14px, 3.5vw, 24px)" }}
-                          >
-                            {game.home}
-                          </span>
-                          <span className="text-[9px] uppercase tracking-[0.15em] text-white/40 mt-1">Home</span>
-                        </div>
-
-                        {/* VS Badge */}
-                        <div
-                          className="flex-shrink-0 flex flex-col items-center justify-center w-12 h-12 rounded-full"
-                          style={{
-                            background: "rgba(220,38,38,0.12)",
-                            border: "1px solid rgba(220,38,38,0.3)",
-                          }}
-                        >
-                          <span className="font-display text-trt-red text-sm font-bold leading-none">VS</span>
-                        </div>
-
-                        {/* Away team */}
-                        <div className="flex flex-col items-end min-w-0 flex-1">
-                          <span
-                            className="font-display font-bold text-white leading-none whitespace-nowrap text-right"
-                            style={{ fontSize: "clamp(14px, 3.5vw, 24px)" }}
-                          >
-                            {game.away}
-                          </span>
-                          <span className="text-[9px] uppercase tracking-[0.15em] text-white/40 mt-1 text-right">Away</span>
-                        </div>
+                      {/* VS Badge */}
+                      <div
+                        className="flex-shrink-0 flex flex-col items-center justify-center w-12 h-12 rounded-full"
+                        style={{
+                          background: "rgba(220,38,38,0.12)",
+                          border: "1px solid rgba(220,38,38,0.3)",
+                        }}
+                      >
+                        <span className="font-display text-trt-red text-sm font-bold leading-none">VS</span>
                       </div>
 
-                      {/* Venue + View button */}
-                      <div className="mt-3 pt-3 flex items-center justify-between gap-2" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-                        <div className="flex items-center gap-1.5 min-w-0">
-                          <MapPin size={11} className="text-white/30 flex-shrink-0" />
-                          <span className="text-[10px] text-white/40 truncate">{game.venue}</span>
-                        </div>
-                        <button
-                          onClick={() => onViewGame(game)}
-                          className="flex-shrink-0 px-4 py-1.5 text-[9px] font-bold uppercase tracking-[0.2em] text-white transition-all duration-200 hover:scale-105 active:scale-95"
-                          style={{
-                            background: "linear-gradient(135deg, #dc2626, #b91c1c)",
-                            borderRadius: "6px",
-                            boxShadow: "0 0 16px rgba(220,38,38,0.4)",
-                          }}
-                        >
-                          View
-                        </button>
-                      </div>
+                      {/* Away team */}
+                      <span
+                        className="font-display font-bold text-white leading-none whitespace-nowrap text-right"
+                        style={{ fontSize: "clamp(18px, 4vw, 32px)" }}
+                      >
+                        {game.away}
+                      </span>
                     </div>
                   </div>
                 ))}
@@ -461,10 +414,10 @@ function GameModal({ game, onClose }: { game: typeof UPCOMING_GAMES[0]; onClose:
 function StandingsTable() {
   const teams = [
     { name: "Brampton", gp: 0, w: 0, l: 0, pts: 0 },
+    { name: "Downtown", gp: 0, w: 0, l: 0, pts: 0 },
     { name: "Durham", gp: 0, w: 0, l: 0, pts: 0 },
     { name: "Mississauga", gp: 0, w: 0, l: 0, pts: 0 },
     { name: "Scarborough", gp: 0, w: 0, l: 0, pts: 0 },
-    { name: "Downtown", gp: 0, w: 0, l: 0, pts: 0 },
     { name: "Vaughan", gp: 0, w: 0, l: 0, pts: 0 },
   ];
   return (
