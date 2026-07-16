@@ -37,7 +37,7 @@ function Index() {
       <Nav />
       <Hero />
       <ScoresStandingsSection onViewGame={() => {}} />
-      <Marquee items={["Toronto", "Scarborough", "Brampton", "Vaughan", "Mississauga", "Durham", "Downtown", "Legacy Lives Here"]} />
+      <Marquee items={["Toronto", "Brampton", "Downtown", "Durham", "Mississauga", "Scarborough", "Vaughan", "Legacy Lives Here"]} />
 
       {/* Single Main Featured Story */}
       <FeaturedStory />
